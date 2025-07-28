@@ -152,7 +152,10 @@ func (v *Video) Send(b *Bot, to Recipient, opt *SendOptions) (*Message, error) {
 		params["supports_streaming"] = "true"
 	}
 
-	msg, err := b.sendMedia(v, params, thumbnailToFilemap(v.Thumbnail))
+	fileMap := thumbnailToFilemap(v.Thumbnail)
+	fileMap = populateWithCover(fileMap, v.Cover)
+
+	msg, err := b.sendMedia(v, params, fileMap)
 	if err != nil {
 		return nil, err
 	}
@@ -400,4 +403,16 @@ func thumbnailToFilemap(thumb *Photo) map[string]File {
 		return map[string]File{"thumbnail": thumb.File}
 	}
 	return nil
+}
+
+func populateWithCover(fileMap map[string]File, cover *Photo) map[string]File {
+	if cover != nil {
+		if fileMap == nil {
+			fileMap = make(map[string]File)
+		}
+
+		fileMap["cover"] = cover.File
+	}
+
+	return fileMap
 }

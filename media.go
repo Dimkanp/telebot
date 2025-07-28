@@ -211,6 +211,7 @@ type Video struct {
 	// (Optional)
 	Caption      string `json:"caption,omitempty"`
 	Thumbnail    *Photo `json:"thumbnail,omitempty"`
+	Cover        *Photo `json:"cover,omitempty"`
 	Streaming    bool   `json:"supports_streaming,omitempty"`
 	MIME         string `json:"mime_type,omitempty"`
 	FileName     string `json:"file_name,omitempty"`
